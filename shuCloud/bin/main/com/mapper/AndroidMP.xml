@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.AndroidMP">
+
+
+
+<!-- 	<select id="getUser" resultType="Map" >
+		SELECT USER_ID, USER_PASSWORD FROM ANDROID WHERE USER_ID = #{userId} AND USER_PASSWORD = #{userPassword}
+	</select>
+	
+	<insert id="insertUser">
+		INSERT INTO ANDROID (USER_ID, USER_PASSWORD, USER_NAME, USER_AGE) 
+			VALUES ( #{userId}, #{userPassword}, #{userName}, #{userAge})
+	</insert> -->
+	
+	
+	<select id="userCheck" resultType="Map">
+		SELECT 
+			USER_ID
+			, USER_EMAIL
+			, USER_NAME AS NAME
+			, USER_PROFILE
+		FROM COMUSERM WHERE 1=1
+		 AND USER_ID = #{userId}
+		 AND USER_EMAIL = #{userEmail}
+	</select>
+	
+	<select id="userCheckAsId" resultType="Map">
+		SELECT 
+			USER_ID
+			, USER_EMAIL
+			, USER_NAME AS NAME
+			, USER_PROFILE 
+		FROM COMUSERM WHERE 1=1
+		 AND USER_ID = #{userId}
+	</select>
+	
+	<select id="emailCheck" resultType="Map">
+		SELECT 
+			USER_ID
+			, USER_EMAIL
+			, USER_NAME AS NAME 
+		FROM COMUSERM WHERE 1=1
+		 AND USER_EMAIL = #{userEmail}
+	</select>
+	
+	<select id="checkDupleFolder" resultType="Integer">
+		 SELECT COUNT(1) FROM FOLDER_DETAIL WHERE 1=1 
+		 	AND FOLDER_NAME = #{folderName} 
+		 	AND FOLDER_OWNER = #{folderOwner}
+		 	AND FOLDER_USERS = #{folderUsers}
+	</select>
+	
+	<select id="getUserFolders" resultType="Map">
+		 -- 해당 유저의 전체 폴더 찾을때
+		 SELECT M.*
+		 		--, COUNT(1) OVER(PARTITION BY FOLDER_NAME,FOLDER_OWNER) USER_COUNT
+		 		, (
+			 		SELECT COUNT(1) 
+			 			FROM FOLDER_DETAIL S 
+			 		WHERE 1=1 
+			 			AND S.FOLDER_NAME = M.FOLDER_NAME 
+			 			AND S.FOLDER_OWNER = M.FOLDER_OWNER
+		 		) USER_COUNT
+		 	FROM FOLDER_DETAIL M WHERE 1=1 
+		 	AND FOLDER_USERS = #{userId} 
+	</select>
+	
+	<select id="getFolderUsers" resultType="Map">
+		-- 해당 폴더의 유저들 찾을때
+		SELECT 
+			USER_ID
+			, USER_EMAIL
+			, USER_NAME AS NAME 
+			, USER_PROFILE
+		 FROM COMUSERM WHERE 1=1
+		AND USER_ID IN (
+			SELECT FOLDER_USERS
+				FROM FOLDER_DETAIL  WHERE 1=1 
+				AND FOLDER_NAME = #{folderName} 
+				AND FOLDER_OWNER = #{folderOwner}
+		)
+	</select>
+	
+	<select id="progressState" resultType="Integer">
+		SELECT COUNT(1) FROM FILE_DETAIL WHERE 1=1 
+			AND SEQ_FOLDER = #{seqFolder}
+			AND FILE_OWNER = #{userId}
+			AND DEAL_STATE= 'N'
+	</select>
+	
+	<select id="getFolderFiles" resultType="Map">
+	SELECT M.* FROM
+		(SELECT 
+			ROWNUM AS R_NUM
+      		,REPLACE(FILE_PATH || FILE_UPLOADED_NAME,'\','/')  AS URI
+			,FILE_ORIGINAL_NAME 		AS "NAME"
+			,FILE_SIZE  				AS "SIZE"
+			,FILE_TYPE					AS "FILE_TYPE"
+			,SEQ_FILE					AS "SEQ_FILE"
+			,FILE_OWNER
+		 FROM FILE_DETAIL WHERE 1=1
+		AND SEQ_FOLDER IN 
+			(SELECT SEQ_FOLDER FROM FOLDER_DETAIL WHERE (FOLDER_NAME, FOLDER_PATH, FOLDER_OWNER) IN
+        		(SELECT FOLDER_NAME, FOLDER_PATH, FOLDER_OWNER FROM FOLDER_DETAIL WHERE SEQ_FOLDER = #{seqFolder})
+        	)
+        <if test='folderSortMine == "Y"'>
+			AND FILE_OWNER = #{folderUsers}
+ 		</if>
+		) M
+		WHERE R_NUM BETWEEN 200 * (#{pageNum} - 1) + 1
+			AND 200 * #{pageNum} 
+	</select>
+	
+	<select id="checkFilesInFolder" resultType="String" parameterType="Map">
+		--폴더에 파일이 있나 확인
+		SELECT SEQ_FOLDER FROM (
+	      SELECT 
+	      	M.SEQ_FOLDER, NVL(M.CNT,0) CNT
+	      FROM (
+	      	SELECT 
+	      		A.SEQ_FOLDER  
+	      		,(SELECT COUNT(1) FROM FILE_DETAIL WHERE SEQ_FOLDER = A.SEQ_FOLDER GROUP BY SEQ_FOLDER) CNT
+	      	FROM FOLDER_DETAIL A , FILE_DETAIL B
+	      		WHERE 1=1
+	      		AND A.FOLDER_USERS = #{folderUsers}
+	      		AND A.SEQ_FOLDER IN
+	            <foreach collection="folders"  item="item" index="index" separator="," open="(" close=")">
+			      	 #{item.seqFolder}
+			    </foreach>
+	      		AND A.SEQ_FOLDER  = B.SEQ_FOLDER (+)
+	      GROUP BY A.SEQ_FOLDER ,B.SEQ_FOLDER
+	      ) M
+    	) WHERE CNT= 0
+	</select>
+	
+	<select id="checkUserInFolder" resultType="Map">
+		--폴더에 유저가 있나 확인
+	 	SELECT * FROM 
+	 		FOLDER_DETAIL 
+	 	WHERE 1=1
+	 		AND FOLDER_USERS = #{folderUsers}
+	 		AND FOLDER_OWNER = #{folderOwner}
+	</select>
+	
+	<select id="getInitFolder" resultType="Map">
+		SELECT * FROM FOLDER_DETAIL WHERE 1=1
+			AND SEQ_FOLDER = #{seqFolder}
+	</select>
+	
+	
+
+	<insert id="insertUser" >
+		 INSERT INTO COMUSERM VALUES (#{userId}, #{userEmail}, #{name}, #{userProfile}, SYSDATE)
+	</insert>
+	
+	<insert id="insertFolder">
+		INSERT INTO FOLDER_DETAIL (SEQ_FOLDER, FOLDER_NAME, FOLDER_PATH, FOLDER_OWNER, FOLDER_USERS, FOLDER_TYPE) 
+			VALUES (SEQ_FOLDER.NEXTVAL, #{folderName}, #{folderPath}, #{folderOwner}, #{folderUsers}, #{folderType})
+	</insert>
+	
+	<insert id="insertAdditionalUserFolder">
+		INSERT INTO FOLDER_DETAIL (SEQ_FOLDER, FOLDER_NAME, FOLDER_PATH, FOLDER_OWNER, FOLDER_USERS, FOLDER_TYPE, DEAL_STATE) 
+			VALUES (SEQ_FOLDER.NEXTVAL, #{folderName}, #{folderPath}, #{folderOwner}, #{folderUsers}, #{folderType}, 'Q')
+	</insert>
+	
+	<insert id="insertFile">
+		INSERT INTO FILE_DETAIL (SEQ_FOLDER, SEQ_FILE, FILE_OWNER, FILE_UPLOADED_NAME, FILE_ORIGINAL_NAME, FILE_PATH, FILE_SIZE, FILE_TYPE)
+			VALUES (#{seqFolder}, SEQ_FILE_DETAIL.NEXTVAL, #{fileOwner}, #{fileUploadedName}, #{fileOriginalName}, #{filePath}, #{fileSize}, #{fileType} )
+	</insert>
+	
+	<update id="insertBundleFiles" parameterType="java.util.List"> <!--insert인데 update문을 사용한다 oracle 시발  -->
+		
+			INSERT INTO FILE_DETAIL(
+				SEQ_FILE
+				, SEQ_FOLDER
+				, FILE_OWNER
+				, FILE_UPLOADED_NAME
+				, FILE_ORIGINAL_NAME
+				, FILE_PATH
+				, FILE_SIZE
+				, FILE_TYPE
+			)
+			SELECT SEQ_FILE_DETAIL.NEXTVAL
+				, U.*
+			FROM (
+				<foreach item="item" index="index" collection="list" separator="UNION ALL">
+					SELECT
+			           #{item.seqFolder}
+			           , #{item.fileOwner}
+			           , #{item.fileUploadedName}
+			           , #{item.fileOriginalName}
+			           , #{item.filePath}
+			           , #{item.fileSize}
+			           , #{item.fileType} 
+		            FROM SYS.DUAL
+	       		</foreach>
+	       	) U
+	</update>
+	
+	
+	
+	
+	<update id="updateFolderProgress">
+		UPDATE FOLDER_DETAIL SET 
+			PROGRESS_PERCENTAGE= #{progressPercentage} 
+		WHERE SEQ_FOLDER = #{seqFolder}
+	</update>
+	<update id="updateFolderDealState">
+		UPDATE FOLDER_DETAIL SET 
+			DEAL_STATE 				= #{dealState}
+			, PROGRESS_PERCENTAGE 	= #{progressPercentage}
+		WHERE SEQ_FOLDER = #{seqFolder}
+	</update>
+	<update id="updateFileDealState">
+		UPDATE FILE_DETAIL SET 
+			DEAL_STATE= 'P'
+		WHERE 1=1 
+			AND SEQ_FOLDER = #{seqFolder}
+			AND FILE_OWNER = #{userId}
+			AND DEAL_STATE != 'X'
+	</update>
+ 	<update id="안씀" parameterType="java.util.List">
+		<foreach item="item" collection="list" separator=";" open="DECLARE BEGIN" close="; END;">
+		UPDATE FILE_DETAIL SET 
+			DEAL_STATE= 'X'
+		WHERE 1=1 
+			AND SEQ_FILE = #{item.seqFile}
+			--AND DEAL_STATE= 'P'
+		</foreach>
+	</update> 
+	<update id="setupLeaderFolder">
+		UPDATE FOLDER_DETAIL SET
+			FOLDER_CAN_WRITE 	= #{folderCanWrite}
+			,FOLDER_CAN_DELETE 	= #{folderCanDelete}
+		WHERE SEQ_FOLDER IN 			
+		(SELECT SEQ_FOLDER FROM FOLDER_DETAIL WHERE (FOLDER_NAME, FOLDER_PATH, FOLDER_OWNER) IN
+        	(SELECT FOLDER_NAME, FOLDER_PATH, FOLDER_OWNER FROM FOLDER_DETAIL WHERE SEQ_FOLDER = #{seqFolder})
+        )
+	</update>
+	<update id="setupPersonalFolder">
+		UPDATE FOLDER_DETAIL SET
+			FOLDER_SORT_MINE 	= #{folderSortMine}
+		WHERE SEQ_FOLDER in #{seqFolder}
+	</update>
+	<update id="updateFolderProfile">
+		UPDATE FOLDER_DETAIL SET 
+			USER_CUSTOM_PROFILE = #{userCustomProfile}
+		WHERE 1=1 
+			AND SEQ_FOLDER = #{seqFolder}
+	</update>
+	<update id="updateFolderName">
+		UPDATE FOLDER_DETAIL SET 
+			USER_CUSTOM_FOLDER_NAME = #{userCustomFolderName}
+		WHERE 1=1 
+			AND SEQ_FOLDER = #{seqFolder}
+	</update>
+	
+	
+	
+	
+	<delete id="updateDeleteFile" parameterType="java.util.List">
+		<foreach item="item" collection="list" separator=";" open="DECLARE BEGIN" close="; END;">
+		DELETE FROM FILE_DETAIL 
+		WHERE 1=1 
+			AND SEQ_FILE = #{item.seqFile}
+			--AND DEAL_STATE= 'P'
+		</foreach>
+	</delete>
+	<delete id="deleteUserFolder">
+		DELETE FROM FOLDER_DETAIL WHERE 1=1
+			AND FOLDER_OWNER = #{folderOwner}
+			AND FOLDER_USERS = #{folderUsers}
+			AND FOLDER_NAME  = #{folderName}
+	</delete>
+		
+	
+</mapper>
