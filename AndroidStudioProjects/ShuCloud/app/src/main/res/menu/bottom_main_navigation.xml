@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/mainNavi_1"
+        android:enabled="true"
+        android:icon="@drawable/ic_mainnavi_1"
+        android:title="휴대폰 저장소"/>
+
+    <item android:id="@+id/mainNavi_2"
+        android:enabled="true"
+        android:icon="@drawable/ic_mainnavi_2"
+        android:title="공유 저장소"/>
+
+    <item android:id="@+id/mainNavi_3"
+        android:enabled="true"
+        android:icon="@drawable/ic_mainnavi_3"
+        android:title="관리"/>
+
+</menu>

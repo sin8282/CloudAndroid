@@ -1,0 +1,62 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.shucloud'
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.example.shucloud"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildFeatures {
+        viewBinding true
+        //dataBinding true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.annotation:annotation:1.5.0'
+
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    implementation "com.github.bumptech.glide:glide:4.14.2" // glide 이미지를 부드럽게 로딩해주는 라이브러리
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2' // glide는 이것까지 적용해야 사용가능
+    implementation 'io.github.ParkSangGwon:tedpermission-normal:latest.integration' // 권한 상승 관련...
+    //implementation 'androidx.activity:activity:1.5.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.0' // 레트로핏 https통신 최적화한 api
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2' //레트로핏 json으로 컨버트하는거
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0' // 레트로핏 json에 공백및 json형태에 맞게 수정해주는 api
+    implementation 'com.google.code.gson:gson:2.8.2' //gson
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'// retrofit 로그
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
+    implementation 'androidx.cardview:cardview:1.0.0' // 카드뷰
+    implementation 'com.google.android.gms:play-services-auth:20.4.1' // 구글 로그인
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'//rxJava 비동기쓰레드
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.7'//rxJava 비동기쓰레드
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0' //retrofit rxjava용 plug추가
+
+}

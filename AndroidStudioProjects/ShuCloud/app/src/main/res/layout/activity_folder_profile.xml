@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FolderProfileActivity">
+
+    <LinearLayout
+        android:id="@+id/topMainNavi"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="right|center_vertical"
+        android:background="@color/teal_000"
+        android:visibility="visible"
+        android:paddingEnd="10dp"
+        android:weightSum="10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/folderNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="폴더 프로필 선택"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="10"/>
+
+    </LinearLayout>
+
+    <com.example.shucloud.Custom.AutoFitViewModuler
+        android:id="@+id/imgRv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:columnWidth="100dp"
+        android:numColumns="auto_fit"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topMainNavi" />
+
+    <LinearLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:elevation="10dp"
+        android:background="#80f4f7f7"
+        android:clickable="true"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="업로드 중입니다."
+            android:textSize="20sp"
+            android:textColor="@color/text"
+            android:visibility="visible"
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

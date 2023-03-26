@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ManagingView">
+
+    <LinearLayout
+        android:id="@+id/topMainNavi"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:gravity="right|center_vertical"
+        android:background="@color/teal_000"
+        android:visibility="visible"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/folderSearchBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:background="@drawable/ic_ripple"
+            android:clickable="true"
+            android:src="@drawable/ic_search" />
+
+        <ImageView
+            android:id="@+id/folderAddBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:background="@drawable/ic_ripple"
+            android:clickable="true"
+            android:src="@drawable/ic_add_folder" />
+
+    </LinearLayout>
+
+    <com.example.shucloud.Custom.AutoFitViewModuler
+        android:id="@+id/imgRv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:columnWidth="300dp"
+        android:numColumns="auto_fit"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topMainNavi" />
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

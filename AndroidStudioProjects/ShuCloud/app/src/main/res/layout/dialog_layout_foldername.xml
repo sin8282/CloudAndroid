@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_background"
+
+    android:id="@+id/DialogBox">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_titlebar"
+        android:padding="10dp"
+        android:text="폴더명 변경"
+        android:textColor="?colorPrimaryText"
+        android:textSize="20sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textMessage1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:text="(폴더명)"
+        android:textSize="20sp"
+
+        android:textColor="?colorPrimaryVariant"
+        />
+
+
+    <TextView
+        android:id="@+id/textMessage2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:text="해당 폴더의 이름을 변경 합니다."
+        android:textColor="?colorPrimaryText"
+        />
+
+    <EditText
+        android:id="@+id/newFolderEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="15dp"/>
+
+
+      <LinearLayout
+          android:layout_width="300dp"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:layout_gravity="center"
+          android:padding="5dp"
+          android:layout_marginTop="15dp">
+
+          <Button
+              android:id="@+id/confirmBtn"
+              android:layout_width="145dp"
+              android:layout_height="40dp"
+              android:background="@drawable/dialog_confirm_btn"
+              android:textColor="?colorPrimaryText"
+              android:text="변경"
+              />
+
+          <TextView
+              android:id="@+id/cancelBtn"
+              android:layout_width="70dp"
+              android:layout_height="30dp"
+              android:layout_marginRight="40dp"
+              android:layout_marginLeft="40dp"
+              android:background="@drawable/dialog_cancel_btn"
+              android:textColor="@color/teal_700"
+              android:textAlignment="center"
+              android:text="취소"
+
+              />
+
+      </LinearLayout>
+
+
+
+</LinearLayout>

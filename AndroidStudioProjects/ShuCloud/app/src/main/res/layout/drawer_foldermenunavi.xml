@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawerView"
+    android:layout_width="250dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="end"
+    android:background="?colorOnPrimary"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/background_box_underline"
+        android:paddingBottom="5dp">
+
+        <TextView
+            android:id="@+id/folderNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="폴더 이름"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="?colorPrimaryText"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="right"
+            android:paddingBottom="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="방장 : "
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/folderOwnerTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="폴더 주인"
+                android:textColor="?colorPrimaryText"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/background_box_underline">
+
+        <TextView
+            android:id="@+id/folderSettingTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="폴더 설정"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="?colorPrimaryText"
+            android:textSize="18sp"
+            android:textStyle="bold"  />
+
+        <TextView
+            android:id="@+id/set1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?colorPrimaryText"
+            android:text="저장권한"/>
+
+        <RadioGroup
+            android:id="@+id/writeAuthRg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:tooltipText="ddd"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:checkedButton="@+id/ownerRb"
+            >
+
+            <RadioButton
+                android:id="@+id/ownerRb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="방장만"
+                android:textColor="?colorPrimaryText"
+                android:enabled="false"
+                />
+
+            <RadioButton
+                android:id="@+id/usersRb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="모두"
+                android:textColor="?colorPrimaryText"
+                android:enabled="false"
+                />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/set2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?colorPrimaryText"
+            android:text="삭제권한"/>
+
+        <RadioGroup
+            android:id="@+id/deleteAuthRg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:checkedButton="@+id/psnRb"
+            >
+
+            <RadioButton
+                android:id="@+id/psnRb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="개인자료"
+                android:textColor="?colorPrimaryText"
+                android:enabled="false"
+                />
+
+            <RadioButton
+                android:id="@+id/evyRb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="모든자료"
+                android:textColor="?colorPrimaryText"
+                android:enabled="false"
+                />
+
+        </RadioGroup>
+        <CheckBox
+            android:id="@+id/sortMineCb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="개인자료 표시"
+            android:textColor="?colorPrimaryText"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/usersTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="사용자 목록"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textColor="?colorPrimaryText"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
