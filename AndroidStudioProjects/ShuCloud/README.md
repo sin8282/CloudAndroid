@@ -1,8 +1,8 @@
 ﻿# CloudAndroid
  
-안드로이드 클라우드 서비스 제작
+안드로이드 클라우드 서비스 제작 - 개인 공부용
 
-1. 기능<br>
+### 1. 기능<br>
 
 😊 로그인 : 구글로그인<br><br>
 ![로그인](https://user-images.githubusercontent.com/57480215/227797430-cd9f3e93-effd-49f7-a2ec-cdff2d6b8838.gif)<br><br>
@@ -18,7 +18,17 @@
 😊 폴더 및 파일 삭제 :<br><br>
 ![폴더및파일삭제](https://user-images.githubusercontent.com/57480215/227797452-e08033ba-45af-44b9-a6cd-c59e2ee4e1d5.gif)<br><br>
 <br><br>
-2. 적용 
- 구글 로그인에 필요한 api 및 credentials.json 필요
 
-
+### 2. 적용 
+ -구글 로그인에 필요한 api 및 credentials.json 필요<br>
+ -AndroidStudioProjects에 BASE_URL_API 아이피 등록필요<br>
+ ``` 
+  private static final String BASE_URL_API
+ ``` 
+ -CloudAndroid/shuCloud/ 프로젝트, AndroidController.java에서 수정필요<br>
+ ``` 
+  private static final String ROOT_DIR;
+  private static final String SERVER_DIR;
+  private static final String PROFILE_DIR;
+  private static final String S = "/";
+ ```
