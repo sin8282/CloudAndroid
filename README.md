@@ -23,7 +23,7 @@
  -구글 로그인에 필요한 api 및 credentials.json 필요<br>
  -AndroidStudioProjects에 BASE_URL_API 아이피 등록필요<br>
  ``` 
-  private static final String BASE_URL_API
+  private static final String BASE_URL_API ="http://100.100.100.100"
  ``` 
  -CloudAndroid/shuCloud/ 프로젝트, AndroidController.java에서 수정필요<br>
  ``` 
